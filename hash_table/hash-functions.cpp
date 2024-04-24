@@ -173,12 +173,14 @@ int new_strlen(char* word)
 {
     int len = 0;
     #ifdef MY_STRLEN
-    __asm__ ("mov rcx, 100; \n\t"
+    __asm__ ("push %1; \n\t"
+            "mov rcx, 100; \n\t"
             "mov rsi, %1; \n\t"
             "mov al, 0; \n\t"
             "repne scasb; \n\t"
             "mov %0, 99; \n\t"
             "sub %0, ecx; \n\t"
+            "pop %1; \n\t"
             : "=a"(len)
             : "g"(word));
     #else

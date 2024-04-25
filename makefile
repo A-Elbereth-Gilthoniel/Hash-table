@@ -9,34 +9,37 @@ SRC2 = $(wildcard $(PREF_SRC2)*.cpp)
 OBJ2 = $(patsubst $(PREF_SRC2)%.cpp, $(PREF_OBJ)%.o, $(SRC2))
 
 STRCMP = -DMY_STRCMP
-CRC32 = -DMY_CRC32
+CRC32 = -DMY_CRC32 -march=znver3
 LEN = -DMY_STRLEN -masm=intel
 
 
 $(TARGET2) : $(OBJ2)
 	g++ $(OBJ2) -o $(TARGET2) -L./list -llist
 $(PREF_OBJ)%.o : $(PREF_SRC2)%.cpp
-	g++ -c $< -o $@
+	g++ -c $< -o $@ -O3
 
 base:
-	g++ -c hash_table/file.cpp -o obj/file.o
+	g++ -c hash_table/file.cpp -o obj/file.o -O3
 	g++ -c hash_table/hash-functions.cpp -o obj/hash-functions.o -O3
-	g++ -c hash_table/main.cpp -o obj/main.o
-	g++ -c hash_table/search.cpp -o obj/search.o
-	g++  ./obj/file.o  ./obj/hash-functions.o  ./obj/main.o  ./obj/search.o -o hash -L./list -llist
+	g++ -c hash_table/main.cpp -o obj/main.o -O3
+	g++ -c hash_table/search.cpp -o obj/search.o -O3
+	g++  ./obj/file.o  ./obj/hash-functions.o  ./obj/main.o  ./obj/search.o -o hash -L./list -llist -O3
 
 upgrade:
 	nasm -g -f elf64 hash_table/my_strcmp.asm -o obj/my_strcmp.o
-	g++ -c hash_table/file.cpp -o obj/file.o
-	g++ -c hash_table/hash-functions.cpp -o obj/hash-functions.o -march=znver3 -O3 $(CRC32) $(LEN)
-	g++ -c hash_table/main.cpp -o obj/main.o
-	g++ -c hash_table/search.cpp obj/my_strcmp.o -o obj/search.o $(STRCMP)
-	g++  ./obj/file.o  ./obj/hash-functions.o  ./obj/main.o ./obj/search.o obj/my_strcmp.o -o hash2 -L./list -llist -no-pie
+	g++ -c hash_table/file.cpp -o obj/file.o -O3
+	g++ -c hash_table/hash-functions.cpp -o obj/hash-functions.o -O3
+	g++ -c hash_table/main.cpp -o obj/main.o -O3
+	g++ -c hash_table/search.cpp obj/my_strcmp.o -o obj/search.o $(STRCMP) -O3
+	g++  ./obj/file.o  ./obj/hash-functions.o  ./obj/main.o ./obj/search.o obj/my_strcmp.o -o hash2 -L./list -llist -no-pie $(STRCMP) -O3
 
 handle:
 	g++ -c handle_text/text_handler.cpp -o obj/text_handler.o
 	g++  ./obj/text_handler.o -o handle -L./list -llist
 
+run:
+	nasm -g -f elf64 hash_table/my_strcmp.asm -o obj/my_strcmp.o
+	g++ hash_table/file.cpp hash_table/hash-functions.cpp hash_table/main.cpp hash_table/search.cpp -O3 -mavx -mavx2 -o hash -L./list -llist
 
 make_lib:
 	g++ -c ./list/list.cpp -o ./list/list.o

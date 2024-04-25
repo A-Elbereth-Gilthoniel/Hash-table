@@ -7,7 +7,7 @@ void fill_word_array(char** word_array)
 
     char *words = (char*)calloc(n + 1, sizeof(char));
     char* start_words = words;
-    fread(words, sizeof(char), n, fp);
+    int garbage = fread(words, sizeof(char), n, fp);
 
     char* end_of_str = NULL;
     int k = 0;
@@ -41,7 +41,7 @@ size_t take_symb_qty()
 {
     size_t n = 0;
     FILE* qty_fp = fopen(SYMB_QTY_FILE, "r");
-    fscanf(qty_fp, "%zu", &n);
+    int garbage = fscanf(qty_fp, "%zu", &n);
     return n;
 }
 

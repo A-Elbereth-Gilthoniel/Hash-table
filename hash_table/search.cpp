@@ -1,7 +1,7 @@
 #include "hash.h"
 
 // my_strcmp.asm
-extern "C" int my_strcmp(char* word1, char* word2);
+// extern "C" int my_strcmp(char* word1, char* word2);
 
 //===============================================
 
@@ -13,7 +13,7 @@ word_pos search_elem_in_list(list_struct** list, char* word, int (*cmptor)(char*
     for (int i = 0; i < list[list_ind]->size; i++)
     {
         #ifdef MY_STRCMP
-        if (my_strcmp(list[list_ind]->data[i], word) == 0)
+        if (my_strcmp((__m256i*)list[list_ind]->data[i], (__m256i*)word) == 0)
         #else
         if (strcmp(list[list_ind]->data[i], word) == 0)
         #endif
@@ -46,3 +46,27 @@ double get_work_time(list_struct** list, int (*cmptor)(char*))
 }
 
 //===============================================
+
+int string_cmptor(char* word1, char* word2)
+{
+    #ifdef MY_STRCMP
+    return my_strcmp((__m256i*)word1, (__m256i*)word2);
+    #else
+    return strcmp(word1, word2);
+    #endif
+}
+
+//===============================================
+
+inline int my_strcmp(__m256i* word1, __m256i* word2)
+{
+    __m256i str_reg_1 = _mm256_lddqu_si256(word1);
+    __m256i str_reg_2 = _mm256_lddqu_si256(word2);
+
+    __m256i res_cmp = _mm256_cmpeq_epi8(str_reg_1, str_reg_2);
+    int mask = ~_mm256_movemask_epi8(res_cmp);
+
+    return mask;
+}
+
+//=============================================

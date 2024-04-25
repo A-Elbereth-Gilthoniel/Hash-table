@@ -26,3 +26,19 @@
 |<img src="graphs/crc32.png"     alt="drawing" width="300"/>|
 
 medium value - среднее медианное значение.
+ ## 3) Время выполнения
+
+С помощью инструмента Valgrind засекаем время работы всех функций. Получаем
+![hah](img/kcache.png)
+
+Как мы видим, самые "прожорливые" функции, которые поддаются оптимизации - **strlen**, **strcmp** и **crc32**. Ими мы и займемся!!!
+
+Оцениваем время по поиску 4 700  000 элементов.
+
+|без оптимизации|-O3|
+|:--:|:--:|
+|<img src="graphs/const.png"   alt="drawing" width="300"/> | <img src="graphs/first_ascii.png" alt="drawing" width="300"/>|
+| -O3 и crc32 | -O3, Len и crc32 |
+|<img src="graphs/length.png" alt="drawing" width="300"/> | <img src="graphs/ascii_sum.png"  alt="drawing" width="300"/>|
+|-O3, len, crc32 и my_strcmp|
+|<img src="graphs/crc32.png"     alt="drawing" width="300"/>|

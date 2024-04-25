@@ -1,7 +1,4 @@
 global my_strcmp
-
-section .data
-    ddd db 0x0a
 section .text
 
 my_strcmp:

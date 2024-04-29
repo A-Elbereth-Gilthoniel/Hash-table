@@ -5,3 +5,4 @@
 #include <time.h>
 #include <immintrin.h>
 #include <nmmintrin.h>
+#include <smmintrin.h>

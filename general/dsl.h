@@ -26,33 +26,31 @@ typedef unsigned int unint;
 #define ASCII_SUM_NAME   "./files/ascii_sum.txt"
 #define CRC32_NAME       "./files/crc32.txt"
 
-// #define CHECK_LIST {"Pouring", "heart", "deliberately", \
-//                     "mind", "redwood", "us", "lost",     \
-//                     "rugs", "Joy", "act", "Grand",      \
-//                     "SFDFDFGSDFDF", "dresser", "cat",   \
-//                     "Service", "schones", "C", "ask",   \
-//                     "VBNM,.,MNBVCX", "nudnik", "Lisa", \
-//                     "dilapidated", "quality", "definite", \
-//                     "suggestion", "despite", "looks", "wear",\
-//                     "cotton", "sweater", "cloth", "zippered", \
-//                     "jacket", "brown", "tweed", "skirt",\
-//                     "bobby", "socks", "hated", "because", \
-//                     "tennis", "collected", "mushrooms", \
-//                     "woods", "above", "beyond", "everything", \
-//                     "else", "originally", "drawn", "screwball", \
-//                     "expression", "reason", "greeted", "strangers", \
-//                     "portentous", "nudnik", "Mona", "Lisa", "smile", \
-//                     "responses", "say", "hello", "attractive", \
-//                     "whereupon", "glided", "plain", "eyesight", \
-//                     "finally", "revealed", "deep", "otherwise", \
-//                     "concealed", "stupidity", "core", "borderline", \
-//                     "flicker", "greeting", "annoyed", "plantlike", \
-//                     "silent", "mysterious", "errand", "fighting", \
-//                     "much", "anything", "direct", "literal", \
-//                     "invention", "reasons", "religious", "intuition", \
-//                     "lost", "She"}
-#define CHECK_LIST {"FDKS;FJD;F"}
-// #define CHECK_LIST_LEN 94
-#define CHECK_LIST_LEN 1
+#define CHECK_LIST {"Pouring", "heart", "deliberately", \
+                    "mind", "redwood", "us", "lost",     \
+                    "rugs", "Joy", "act", "Grand",      \
+                    "SFDFDFGSDFDF", "dresser", "cat",   \
+                    "Service", "schones", "C", "ask",   \
+                    "VBNM,.,MNBVCX", "nudnik", "Lisa", \
+                    "dilapidated", "quality", "definite", \
+                    "suggestion", "despite", "looks", "wear",\
+                    "cotton", "sweater", "cloth", "zippered", \
+                    "jacket", "brown", "tweed", "skirt",\
+                    "bobby", "socks", "hated", "because", \
+                    "tennis", "collected", "mushrooms", \
+                    "woods", "above", "beyond", "everything", \
+                    "else", "originally", "drawn", "screwball", \
+                    "expression", "reason", "greeted", "strangers", \
+                    "portentous", "nudnik", "Mona", "Lisa", "smile", \
+                    "responses", "say", "hello", "attractive", \
+                    "whereupon", "glided", "plain", "eyesight", \
+                    "finally", "revealed", "deep", "otherwise", \
+                    "concealed", "stupidity", "core", "borderline", \
+                    "flicker", "greeting", "annoyed", "plantlike", \
+                    "silent", "mysterious", "errand", "fighting", \
+                    "much", "anything", "direct", "literal", \
+                    "invention", "reasons", "religious", "intuition", \
+                    "lost", "She"}
+#define CHECK_LIST_LEN 94
 
-#define ITER_QTY 50000*94
+#define ITER_QTY 50000

@@ -37,8 +37,12 @@ medium value - среднее медианное значение.
 
 |без оптимизации|-O3|
 |:--:|:--:|
-|<img src="graphs/const.png"   alt="drawing" width="300"/> | <img src="graphs/first_ascii.png" alt="drawing" width="300"/>|
-| -O3 и crc32 | -O3, Len и crc32 |
-|<img src="graphs/length.png" alt="drawing" width="300"/> | <img src="graphs/ascii_sum.png"  alt="drawing" width="300"/>|
+|<img src="img/no_optimization.png"   alt="drawing" width="300"/> | <img src="img/o3.png" alt="drawing" width="300"/>|
+| -O3 и crc32 | -O3, STRCMP и crc32 |
+|<img src="img/03_crc32.png" alt="drawing" width="300"/> | <img src="img/03_CRC32_STR.png"  alt="drawing" width="300"/>|
 |-O3, len, crc32 и my_strcmp|
-|<img src="graphs/crc32.png"     alt="drawing" width="300"/>|
+|<img src="img/AND_LEN.png"     alt="drawing" width="300"/>|
+
+# Вывод
+* оптимальной функцией для вычисления хеша оказалась функция crc32.
+* с помощью низкоуровневого кода и флагов оптимизации нам удалось ускорить нашу программу.

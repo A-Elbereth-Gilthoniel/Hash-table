@@ -17,10 +17,9 @@ size_t find_file_size(FILE* fp);
 size_t take_symb_qty();
 void put_hash_into_file(list_struct** hash_list, const char* file_name);
 // search.cpp
-int search_elem_in_list(list_struct* list, char* word);
+word_pos search_elem_in_list(list_struct* list, char* word);
 double get_work_time(list_struct** list, int (*cmptor)(char*));
-int string_cmptor(char* word1, char* word2);
-inline int my_strcmp(__m256i* word1, __m256i* word2);
+int fast_strcmp_avx2(char* s1, char* s2);
 // hash_functions.cpp
 list_struct** make_hash_table(int (*cmptor)(char*), char** word_array, size_t word_qty);
 int const_func(char* word);

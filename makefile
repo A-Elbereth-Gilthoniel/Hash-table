@@ -9,7 +9,7 @@ SRC2 = $(wildcard $(PREF_SRC2)*.cpp)
 OBJ2 = $(patsubst $(PREF_SRC2)%.cpp, $(PREF_OBJ)%.o, $(SRC2))
 
 STRCMP = -DMY_STRCMP -march=znver3
-CRC32 = -DMY_CRC32 -march=znver3
+CRC32 = -DMY_CRC32
 LEN = -DMY_STRLEN -masm=intel
 
 
@@ -22,24 +22,26 @@ base:
 	g++ -c src/file.cpp -o obj/file.o -O3
 	g++ -c src/hash-functions.cpp -o obj/hash-functions.o -O3
 	g++ -c src/main.cpp -o obj/main.o -O3
+	g++ -c src/measuring.cpp -o obj/measuring.o -O3
 	g++ -c src/search.cpp -o obj/search.o -O3 -march=znver3
-	g++  ./obj/file.o  ./obj/hash-functions.o  ./obj/main.o  ./obj/search.o -o hash -L./list -llist -O3
+	g++  ./obj/file.o  obj/measuring.o ./obj/hash-functions.o  ./obj/main.o  ./obj/search.o -o hash -L./list -llist -O3
 
 upgrade:
-	nasm -g -f elf64 src/my_strcmp.asm -o obj/my_strcmp.o
+	nasm -g -f elf64 src/my_crc32.asm -o obj/my_crc32.o
 	g++ -c src/file.cpp -o obj/file.o -O3
-	g++ -c src/hash-functions.cpp -o obj/hash-functions.o -O3 $(CRC32)
+	g++ -c src/hash-functions.cpp obj/my_crc32.o -o obj/hash-functions.o -O3
 	g++ -c src/main.cpp -o obj/main.o -O3
-	g++ -c src/search.cpp obj/my_strcmp.o -o obj/search.o -O3 $(STRCMP) $(LEN)
-	g++  ./obj/file.o  ./obj/hash-functions.o  ./obj/main.o ./obj/search.o obj/my_strcmp.o -o hash2 -L./list -llist -no-pie -O3
+	g++ -c src/measuring.cpp -o obj/measuring.o -O3
+	g++ -c src/search.cpp -o obj/search.o -O3 $(STRCMP) $(LEN)
+	g++  ./obj/file.o  obj/measuring.o ./obj/hash-functions.o  ./obj/main.o ./obj/search.o obj/my_crc32.o -o hash2 -L./list -llist -no-pie -O3
 
 handle:
 	g++ -c handle_text/text_handler.cpp -o obj/text_handler.o
 	g++  ./obj/text_handler.o -o handle -L./list -llist
 
 run:
-	nasm -g -f elf64 src/my_strcmp.asm -o obj/my_strcmp.o
-	g++ obj/my_strcmp.o src/file.cpp src/hash-functions.cpp src/main.cpp src/search.cpp -march=znver3 -o hash -L./list -llist
+	nasm -g -f elf64 src/my_crc32.asm -o obj/my_crc32.o
+	g++ obj/my_crc32.o src/file.cpp src/measuring.cpp src/hash-functions.cpp src/main.cpp src/search.cpp $(CRC32) $(STRCMP) $(LEN) -O3 -o hash -L./list -llist
 
 make_lib:
 	g++ -c ./list/list.cpp -o ./list/list.o

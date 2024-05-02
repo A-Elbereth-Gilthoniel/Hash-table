@@ -1,21 +1,21 @@
 #include "hash.h"
 
 // my_strcmp.asm
- extern "C" int my_strcmp(char* word1, char* word2);
+//  extern "C" int my_strcmp(char* word1, char* word2);
 
 //===============================================
 
 word_pos search_elem_in_list(list_struct** list, char* word, int (*cmptor)(char*))
 {
     word_pos position;
-    volatile int cmp = 0;
+    int cmp = 0;
     int list_ind = cmptor(word);
     int size = list[list_ind]->size;
 
     for (int i = 0; i < size; ++i)
     {
         #ifdef MY_STRCMP
-        cmp = my_strcmp(list[list_ind]->data[i], word);
+        cmp = fast_strcmp(list[list_ind]->data[i], word);
         #else
         cmp = strcmp(list[list_ind]->data[i], word);
         #endif
@@ -31,27 +31,11 @@ word_pos search_elem_in_list(list_struct** list, char* word, int (*cmptor)(char*
     return (word_pos)position;
 }
 
-//=================================================
-
-double get_work_time(list_struct** list, int (*cmptor)(char*))
-{
-    word_pos pos;
-    const char* check_list[CHECK_LIST_LEN] = CHECK_LIST;
-   clock_t begin = clock();
-    for (int i = 0; i < CHECK_LIST_LEN; i++)
-    {
-        for (int _ = 0; _ < ITER_QTY; _++)
-            pos = search_elem_in_list(list, (char*)check_list[i], cmptor);
-    }
-   clock_t end = clock();
-
-   return (double)(end - begin) / CLOCKS_PER_SEC;
-}
-
 //=============================================
 
-int fast_strcmp_avx2(char* s1, char* s2)
+int fast_strcmp(char* s1, char* s2)
 {
+    #ifdef MY_STRCMP
     __m256i v1, v2, cmp_result;
     int mask = 0;
     const __m256i zero = _mm256_setzero_si256();
@@ -72,5 +56,7 @@ int fast_strcmp_avx2(char* s1, char* s2)
         s1 += 32;
         s2 += 32;
     }
+    #else
     return 0;
+    #endif
 }

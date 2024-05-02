@@ -1,5 +1,8 @@
 #include "hash.h"
 
+// my_crc32.asm
+extern "C" int my_crc32(char* word, int length);
+
 //=========================================
 
 list_struct** make_hash_table(int (*cmptor)(char*), char** word_array, size_t word_qty)
@@ -153,12 +156,13 @@ int crc32(char* word)
     unsigned int crc = 0xffffffff;
 
     #ifdef MY_CRC32
-	for (int i = 0; i < new_strlen(word); i++)
-          crc = _mm_crc32_u8(crc, (unsigned char)word[i]);
+	// for (int i = 0; i < new_strlen(word); i++)
+    //       crc = _mm_crc32_u8(crc, (unsigned char)word[i]);
+    crc = my_crc32(word, new_strlen(word));
     return (int)(crc % HASH_TABLE_SIZE);
     #else
 
-    for (int i = 0; i < strlen(word); i++)
+    for (int i = 0; i < new_strlen(word); i++)
     {
         crc = poly8_lookup[(crc ^ (unsigned int)word[i]) % HASH_TABLE_SIZE] ^ (crc >> 8);
     }
@@ -190,3 +194,5 @@ int new_strlen(char* word)
 
     return len;
 }
+
+//=================================================

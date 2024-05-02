@@ -49,12 +49,9 @@ size_t take_symb_qty()
 
 void put_hash_into_file(list_struct** hash_list, const char* file_name)
 {
-   // fprintf(stderr, "LEFT\n");
     FILE* fp = fopen(file_name, "w");
     for (int i = 0; i < HASH_TABLE_SIZE; i++)
     {
-        // print_list(hash_list[i]);
-        // fprintf(stderr, "%d", hash_list[i]->size);
         fprintf(fp, "%d\n", hash_list[i]->size);
     }
     fclose(fp);

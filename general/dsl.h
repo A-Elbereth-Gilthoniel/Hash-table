@@ -54,3 +54,5 @@ typedef unsigned int unint;
 #define CHECK_LIST_LEN 94
 
 #define ITER_QTY 50000
+
+#define SAMPLE 5

@@ -23,11 +23,19 @@ int main()
     put_hash_into_file(hash_list6, ASCII_SUM_NAME);
     put_hash_into_file(hash_list7, CRC32_NAME);
 
-    printf("const       = %lf seconds\n", get_work_time(hash_list1, const_func));
-    printf("first ascii = %lf seconds\n", get_work_time(hash_list2, first_ascii_func));
-    printf("length      = %lf seconds\n", get_work_time(hash_list3, word_length));
-    printf("shift right = %lf seconds\n", get_work_time(hash_list4, shift_right));
-    printf("shift left  = %lf seconds\n", get_work_time(hash_list5, shift_left));
-    printf("ascii sum   = %lf seconds\n", get_work_time(hash_list6, ascii_sum));
-    printf("crc32       = %lf seconds\n", get_work_time(hash_list7, crc32));
+    double* measurement = measure_sample(hash_list1, const_func);
+    printf("const       = %lf seconds\t+- %lf\n", measurement[0], measurement[1]);
+    measurement = measure_sample(hash_list2, first_ascii_func);
+    printf("first ascii = %lf seconds\t+- %lf\n", measurement[0], measurement[1]);
+    measurement = measure_sample(hash_list3, word_length);
+    printf("length      = %lf seconds\t+- %lf\n", measurement[0], measurement[1]);
+    measurement = measure_sample(hash_list4, shift_right);
+    printf("shift right = %lf seconds\t+- %lf\n", measurement[0], measurement[1]);
+    measurement = measure_sample(hash_list5, shift_left);
+    printf("shift left  = %lf seconds\t+- %lf\n", measurement[0], measurement[1]);
+    measurement = measure_sample(hash_list6, ascii_sum);
+    printf("ascii sum   = %lf seconds\t+- %lf\n", measurement[0], measurement[1]);
+    measurement = measure_sample(hash_list7, crc32);
+    printf("crc32       = %lf seconds\t+- %lf\n", measurement[0], measurement[1]);
+    free(measurement);
 }

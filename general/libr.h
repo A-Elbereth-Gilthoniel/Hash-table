@@ -6,3 +6,4 @@
 #include <immintrin.h>
 #include <nmmintrin.h>
 #include <smmintrin.h>
+#include <math.h>
